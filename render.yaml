@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: cbt-frontend
+    env: docker
+    rootDir: frontend
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          name: cbt-backend
+          type: web
+          property: url
+
+  - type: web
+    name: cbt-backend
+    env: docker
+    rootDir: backend
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cbt-db
+          property: connectionString
+      - key: JWT_SECRET
+        value: supersecret
+
+databases:
+  - name: cbt-db
